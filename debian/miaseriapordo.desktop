@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=MiaSeriaPordo
+GenericName=Serial Port Monitor
+Comment=Monitor and talk to serial ports (ttyUSB, ttyACM, ttyS)
+Exec=miaseriapordo
+Icon=miaseriapordo
+Terminal=false
+Categories=Development;Electronics;GTK;
+Keywords=serial;uart;rs232;terminal;hex;
+StartupNotify=true

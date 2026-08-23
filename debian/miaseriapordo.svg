@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <!-- Metal Shell Gradient -->
+    <linearGradient id="metalShell" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a8a8a8"/>
+      <stop offset="20%" stop-color="#e0e0e0"/>
+      <stop offset="50%" stop-color="#888888"/>
+      <stop offset="80%" stop-color="#c0c0c0"/>
+      <stop offset="100%" stop-color="#707070"/>
+    </linearGradient>
+    
+    <!-- Pin Hole Depth Shadow -->
+    <radialGradient id="pinHole" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="70%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#333333"/>
+    </radialGradient>
+
+    <!-- Insulator Blue Plastic -->
+    <linearGradient id="insulator" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="50%" stop-color="#2b5797"/>
+      <stop offset="100%" stop-color="#152b47"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Mounting Flange / Outer Shield -->
+  <path d="M 40 80 
+           L 360 80 
+           Q 380 80 380 100 
+           L 380 200 
+           Q 380 220 360 220 
+           L 40 220 
+           Q 20 220 20 200 
+           L 20 100 
+           Q 20 80 40 80 Z" 
+        fill="url(#metalShell)" stroke="#555" stroke-width="2"/>
+
+  <!-- Screw Holes -->
+  <circle cx="50" cy="150" r="12" fill="#444" stroke="#666" stroke-width="2"/>
+  <circle cx="50" cy="150" r="6" fill="#222"/>
+  <path d="M 44 150 L 56 150 M 50 144 L 50 156" stroke="#555" stroke-width="2"/>
+  
+  <circle cx="350" cy="150" r="12" fill="#444" stroke="#666" stroke-width="2"/>
+  <circle cx="350" cy="150" r="6" fill="#222"/>
+  <path d="M 344 150 L 356 150 M 350 144 L 350 156" stroke="#555" stroke-width="2"/>
+
+  <!-- D-Sub Trapezoid Shape (Female Socket Recess) -->
+  <path d="M 90 105 
+           L 310 105 
+           L 290 195 
+           L 110 195 Z" 
+        fill="url(#insulator)" stroke="#111" stroke-width="3"/>
+
+  <!-- Inner Bevel Highlight -->
+  <path d="M 93 108 L 307 108 L 288 192 L 112 192 Z" 
+        fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <!-- Top Row Pins (5 pins: 1-5) -->
+  <g fill="url(#pinHole)" stroke="#0a0a0a" stroke-width="1">
+    <circle cx="130" cy="130" r="7"/> <!-- Pin 1 -->
+    <circle cx="165" cy="130" r="7"/> <!-- Pin 2 -->
+    <circle cx="200" cy="130" r="7"/> <!-- Pin 3 -->
+    <circle cx="235" cy="130" r="7"/> <!-- Pin 4 -->
+    <circle cx="270" cy="130" r="7"/> <!-- Pin 5 -->
+  </g>
+
+  <!-- Bottom Row Pins (4 pins: 6-9) -->
+  <g fill="url(#pinHole)" stroke="#0a0a0a" stroke-width="1">
+    <circle cx="147" cy="170" r="7"/> <!-- Pin 6 -->
+    <circle cx="182" cy="170" r="7"/> <!-- Pin 7 -->
+    <circle cx="217" cy="170" r="7"/> <!-- Pin 8 -->
+    <circle cx="252" cy="170" r="7"/> <!-- Pin 9 -->
+  </g>
+
+  <!-- Pin Numbers (Subtle molding marks) -->
+  <g font-family="Arial, sans-serif" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle">
+    <text x="130" y="118">1</text>
+    <text x="270" y="118">5</text>
+    <text x="147" y="188">6</text>
+    <text x="252" y="188">9</text>
+  </g>
+</svg>
