@@ -33,7 +33,7 @@
 static GtkWidget     *win;
 static GtkWidget     *combo_port, *combo_baud, *combo_databits,
                      *combo_parity, *combo_stopbits, *combo_newline;
-static GtkWidget     *btn_connect, *btn_disconnect;
+static GtkWidget    *btn_connect_disconnect;
 static GtkWidget     *textview, *entry_send;
 static GtkWidget     *btn_send, *btn_clear, *btn_refresh, *check_autoconnect,
                      *check_hex;
@@ -71,9 +71,8 @@ static const struct {
 /* ------------------------------------------------------------------ */
 /* Callbacks (forward declarations)                                    */
 
-static void on_btn_connect_clicked(GtkButton *b, gpointer u);
-static void on_btn_disconnect_clicked(GtkButton *b, gpointer u);
 
+static void on_btn_connect_disconnect_clicked(GtkButton *b, gpointer u);
 /* ------------------------------------------------------------------ */
 /* Small helpers                                                       */
 
@@ -148,7 +147,7 @@ ctrl_escape(uint8_t c, char out[8])
     case '\t': return "\\t";
     case 0x00: return "\\0";
     default:
-        g_snprintf(out, 8, (c == 0x7F) ? "\\x7F" : "\\x%02X", c);
+        g_snprintf(out, 8, (c == 0x7F) ? "\\7F" : "\\%02X", c);
         return out;
     }
 }
@@ -184,8 +183,7 @@ hex_reset(void)
     sp_nl_match = 0;
 }
 
-static void
-hex_append(const uint8_t *data, gsize len)
+static void hex_append(const uint8_t *data, gsize len)
 {
     GString *acc = g_string_sized_new(len * 3 + 16);
 
@@ -216,8 +214,7 @@ hex_append(const uint8_t *data, gsize len)
  * Normal text mode: control bytes are always shown as highlighted
  * literal text ("\n", "\r", "\x01" ...), and the selected newline
  * sequence is the only thing that starts a real new line.           */
-static void
-display_chunk(const uint8_t *data, gsize len)
+static void display_chunk(const uint8_t *data, gsize len)
 {
     GString *acc;
     char esc[8];
@@ -492,14 +489,6 @@ close_port(void)
     }
 }
 
-/* Reflect connection state on the Connect/Disconnect buttons. */
-static void
-set_connected(gboolean on)
-{
-    gtk_widget_set_sensitive(btn_connect, !on);
-    gtk_widget_set_sensitive(btn_disconnect, on);
-}
-
 /* Add bytes to the shared history and show them - used for both
  * received and sent data so they appear identically in the view. */
 static void
@@ -516,8 +505,7 @@ push_stream(const uint8_t *data, gsize len)
     scroll_to_end();
 }
 
-static gboolean
-on_serial_data(gint fd, GIOCondition cond, gpointer user_data)
+static gboolean on_serial_data(gint fd, GIOCondition cond, gpointer user_data)
 {
     uint8_t buf[READ_CHUNK];
     ssize_t n;
@@ -535,15 +523,14 @@ on_serial_data(gint fd, GIOCondition cond, gpointer user_data)
      * status updates with no payload. Only real errors disconnect. */
     if (n < 0 && errno != EINTR) {
         close_port();
-        set_connected(FALSE);
+         gtk_button_set_label(GTK_BUTTON(btn_connect_disconnect), "Connect  ");
         g_warning("serial read error: %s", g_strerror(errno));
         return FALSE;
     }
     return TRUE;
 }
 
-static void
-open_port(void)
+static void open_port(void)
 {
     gchar *path;
     GtkWidget *dlg;
@@ -561,8 +548,7 @@ open_port(void)
 
     sfd = open(path, O_RDWR | O_NOCTTY | O_NONBLOCK);
     if (sfd < 0) {
-        dlg = gtk_message_dialog_new(GTK_WINDOW(win), GTK_DIALOG_MODAL,
-                                     GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+        dlg = gtk_message_dialog_new(GTK_WINDOW(win), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
                                      "Cannot open %s:\n%s", path, g_strerror(errno));
         gtk_dialog_run(GTK_DIALOG(dlg));
         gtk_widget_destroy(dlg);
@@ -573,7 +559,7 @@ open_port(void)
     apply_termios(sfd);
     watch_id = g_unix_fd_add(sfd, G_IO_IN, on_serial_data, NULL);
     save_settings();
-    set_connected(TRUE);
+     gtk_button_set_label(GTK_BUTTON(btn_connect_disconnect), "Disconnect" );
     g_free(path);
 }
 
@@ -625,9 +611,7 @@ send_data(void)
     GtkWidget *dlg;
 
     if (sfd < 0) {
-        dlg = gtk_message_dialog_new(GTK_WINDOW(win), GTK_DIALOG_MODAL,
-                                     GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,
-                                     "Port is not open.");
+        dlg = gtk_message_dialog_new(GTK_WINDOW(win), GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_OK,"Port is not open.");
         gtk_dialog_run(GTK_DIALOG(dlg));
         gtk_widget_destroy(dlg);
         return;
@@ -697,17 +681,16 @@ on_check_autoconnect_toggled(GtkToggleButton *b, gpointer u)
 }
 
 /* deferred startup connection for the Auto connect checkbox */
-static gboolean
-autoconnect_cb(gpointer u)
+static gboolean autoconnect_cb(gpointer u)
 {
     (void)u;
-    if (sfd < 0)
-        gtk_button_clicked(GTK_BUTTON(btn_connect));
+    if (sfd < 0){
+        gtk_button_clicked(GTK_BUTTON(btn_connect_disconnect));
+    }
     return FALSE;
 }
 
-static void
-on_check_hex_toggled(GtkToggleButton *b, gpointer u)
+static void on_check_hex_toggled(GtkToggleButton *b, gpointer u)
 {
     (void)b; (void)u;
     save_settings();
@@ -722,27 +705,25 @@ on_combo_newline_changed(GtkComboBox *c, gpointer u)
     redraw_all();               /* both raw & hex views follow selection */
 }
 
+
+
+
 static void
-on_btn_connect_clicked(GtkButton *b, gpointer u)
+on_btn_connect_disconnect_clicked(GtkButton *b, gpointer u)
 {
     (void)b; (void)u;
-    if (sfd < 0)
+    if (sfd < 0){ //connect
         open_port();
-}
-
-static void
-on_btn_disconnect_clicked(GtkButton *b, gpointer u)
-{
-    (void)b; (void)u;
-    if (sfd >= 0) {
+        gtk_button_set_label(GTK_BUTTON(btn_connect_disconnect),"Disconnect");
+    } else { //disconnect
         close_port();
-        set_connected(FALSE);
-        save_settings();
+         gtk_button_set_label(GTK_BUTTON(btn_connect_disconnect), "Connect  ");
     }
+    save_settings();
 }
 
-static gboolean
-on_window1_delete_event(GtkWidget *w, GdkEvent *e, gpointer u)
+
+static gboolean on_window1_delete_event(GtkWidget *w, GdkEvent *e, gpointer u)
 {
     (void)w; (void)e; (void)u;
     close_port();
@@ -839,8 +820,7 @@ main(int argc, char **argv)
     combo_parity  = GTK_WIDGET(W("combo_parity"));
     combo_stopbits= GTK_WIDGET(W("combo_stopbits"));
     combo_newline = GTK_WIDGET(W("combo_newline"));
-    btn_connect    = GTK_WIDGET(W("btn_connect"));
-    btn_disconnect = GTK_WIDGET(W("btn_disconnect"));
+    btn_connect_disconnect= GTK_WIDGET(W("btn_connect_disconnect"));
     textview      = GTK_WIDGET(W("textview_data"));
     entry_send    = GTK_WIDGET(W("entry_send"));
     btn_send      = GTK_WIDGET(W("btn_send"));
@@ -870,8 +850,7 @@ main(int argc, char **argv)
     /* connect signals manually (more reliable than builder auto-connect) */
     g_signal_connect(win, "delete-event", G_CALLBACK(on_window1_delete_event), NULL);
     g_signal_connect(btn_refresh, "clicked", G_CALLBACK(on_btn_refresh_clicked), NULL);
-    g_signal_connect(btn_connect, "clicked", G_CALLBACK(on_btn_connect_clicked), NULL);
-    g_signal_connect(btn_disconnect, "clicked", G_CALLBACK(on_btn_disconnect_clicked), NULL);
+    g_signal_connect(btn_connect_disconnect, "clicked", G_CALLBACK(on_btn_connect_disconnect_clicked), NULL);
     g_signal_connect(entry_send, "activate", G_CALLBACK(on_entry_send_activate), NULL);
     g_signal_connect(btn_send, "clicked", G_CALLBACK(on_btn_send_clicked), NULL);
     g_signal_connect(btn_clear, "clicked", G_CALLBACK(on_btn_clear_clicked), NULL);

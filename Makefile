@@ -20,7 +20,7 @@ DEB      := $(NAME)_$(VERSION)_$(DEBARCH).deb
 
 .PHONY: all clean install deb run
 
-all: $(TARGET)
+all: clean $(TARGET)
 
 $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) -o $@ $(SRCS) $(LDLIBS)
