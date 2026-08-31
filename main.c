@@ -106,8 +106,7 @@ scroll_to_end(void)
 {
     GtkTextIter end;
     gtk_text_buffer_get_end_iter(tbuf, &end);
-    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(textview), &end,
-                                 0.0, TRUE, 0.0, 1.0);
+    gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(textview), &end, 0.0, TRUE, 0.0, 1.0);
 }
 
 static void
@@ -835,8 +834,9 @@ main(int argc, char **argv)
 
     /* highlighted escape tokens (\n, \r ...) in text mode */
     gtk_text_buffer_create_tag(tbuf, "esc",
-                               "foreground", "#d0483a",
-                               "weight", PANGO_WEIGHT_BOLD,
+                               "foreground", "#117dd4",
+                               "weight", PANGO_WEIGHT_THIN,
+                                "size", 7 * PANGO_SCALE,
                                NULL);
 
     history = g_byte_array_new();
