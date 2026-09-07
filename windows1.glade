@@ -35,7 +35,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_refresh">
-                <property name="label" translatable="yes">⟲</property>
+                <property name="label" translatable="yes">Refresh</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="receives-default">False</property>
@@ -150,7 +150,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_clear">
-                <property name="label" translatable="yes">⋆˙⟡🧹</property>
+                <property name="label" translatable="yes">Clear</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
@@ -227,7 +227,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btn_send">
-                <property name="label" translatable="yes">➤</property>
+                <property name="label" translatable="yes">Send</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
