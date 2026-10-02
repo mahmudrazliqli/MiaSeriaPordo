@@ -1,5 +1,5 @@
 
-#MiaSeriaPordo
+# MiaSeriaPordo
 # Serial Port Terminal (GTK)
 
 A lightweight, cross-platform serial port terminal for engineers who work with
