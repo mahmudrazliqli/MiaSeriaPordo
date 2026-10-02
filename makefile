@@ -92,5 +92,5 @@ program:all
 	@echo "#############   $(TITLE)_$(VERSION)_Setup.exe  IS READY  ####################"
 endif
 #pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-pkg-config mingw-w64-x86_64-gtk3 mingw-w64-x86_64-libconfig mingw-w64-x86_64-nsis p7zip
-
+#pacman -S mingw-w64x86_64-librsvg mingw-w64x86_64-icoutils
 ####################################################################################################################
