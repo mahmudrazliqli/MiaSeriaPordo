@@ -2,14 +2,10 @@
 # MiaSeriaPordo
 # Serial Port Terminal (GTK)
 
-A lightweight, cross-platform serial port terminal for engineers who work with
-embedded hardware, microcontrollers, PLCs, and lab instruments. It is built
-with GTK and runs on Linux and Windows.
-
-The goal is simple: plug in your board, pick a port, and start watching data —
-no scripting, no IDE, no build system required at run time.
-
+A lightweight, cross-platform serial port terminalIt is built
+with GTK 3 and runs on Linux and Windows.
 ---
+<img width="549" height="592" alt="MiaSeriaPordoV5 0" src="https://github.com/user-attachments/assets/b8e7b926-5bdb-40f5-9f69-0abed91529e1" />
 
 ## What it does
 
