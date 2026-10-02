@@ -1,0 +1,11 @@
+button:hover {
+    background-color: #92eee6;
+}
+
+listbox.logview row {
+    padding: 0;
+    min-height: 0;
+}
+listbox.logview label {
+    margin: 0;
+}

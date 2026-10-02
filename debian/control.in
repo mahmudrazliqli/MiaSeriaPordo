@@ -1,0 +1,12 @@
+Package: miaseriapordo
+Version: @VERSION@
+Section: electronics
+Priority: optional
+Architecture: @ARCH@
+Depends: @DEPS@
+Maintainer: Mahmud Razliqli <mahmudrazliqli@yahoo.com>
+Description: MiaSeriaPordo - GTK3 serial port monitor and terminal
+ MiaSeriaPordo opens a serial port (ttyS*, ttyUSB*, ttyACM*...),
+ shows received data as text or hex dump with selectable line
+ endings, highlights control characters (\n, \r ...), can send
+ data and reconnect automatically at startup.
