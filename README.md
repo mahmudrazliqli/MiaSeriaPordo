@@ -1,0 +1,56 @@
+# Serial Port Terminal (GTK)
+
+A lightweight, cross-platform serial port terminal for engineers who work with
+embedded hardware, microcontrollers, PLCs, and lab instruments. It is built
+with GTK and runs on Linux and Windows.
+
+The goal is simple: plug in your board, pick a port, and start watching data —
+no scripting, no IDE, no build system required at run time.
+
+---
+
+## What it does
+
+- **Enumerate and connect** to serial ports (`/dev/ttyUSB*`, `/dev/ttyACM*`,
+  `/dev/ttyS*`, `COM1…COM256`, etc.)
+- **Full UART configuration**: baud rate (300 → 921600), data bits (5/6/7/8),
+  parity (None / Odd / Even), stop bits (1/2)
+- **Two view modes**:
+  - **ASCII** — control characters are shown as escape tokens (`\n`, `\r`,
+    `\t`, `\0`, `\XX`) with a distinct colour so they stand out
+  - **HEX** — plain hex dump, with an automatic line break on your chosen
+    end-of-line sequence
+- **Send line** with a selectable line terminator (`\n`, `\n\r`, `\r\n`, `\r`)
+- **Pause / resume** the display while the port keeps reading in the
+  background (useful when you want to freeze a burst of data)
+- **Clear** button for the log window
+- **Show descriptor** — prints the current port settings and buffer size
+- **Ctrl + mouse-wheel** over the log adjusts the font size
+- **Auto-connect** on startup (optional)
+- **Remembers everything**: port, baud, framing, newline, view mode, window
+  size and position, and font size are restored next time you launch.
+
+---
+
+## Typical use cases
+
+- Bringing up a new MCU and watching UART boot messages
+- Debugging AT commands on a modem or radio module
+- Monitoring a GPS / GNSS receiver's NMEA output
+- Talking to an Arduino, ESP32, STM32, Raspberry Pi Pico, etc.
+- Watching a PLC or sensor that speaks Modbus-ASCII or a custom text protocol
+- Quick sanity check of a USB-to-serial adapter's pinout and baud rate
+
+---
+
+## Requirements
+
+### Linux
+- GTK 3
+- `libconfig`
+- The usual dev packages: `build-essential`, `pkg-config`
+
+On Debian/Ubuntu:
+
+```bash
+sudo apt install build-essential pkg-config libgtk-3-dev libconfig-dev
