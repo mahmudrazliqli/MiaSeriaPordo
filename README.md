@@ -28,19 +28,6 @@ with GTK 3 and runs on Linux and Windows.
 - **Remembers everything**: port, baud, framing, newline, view mode, window
   size and position, and font size are restored next time you launch.
 
----
-
-## Typical use cases
-
-- Bringing up a new MCU and watching UART boot messages
-- Debugging AT commands on a modem or radio module
-- Monitoring a GPS / GNSS receiver's NMEA output
-- Talking to an Arduino, ESP32, STM32, Raspberry Pi Pico, etc.
-- Watching a PLC or sensor that speaks Modbus-ASCII or a custom text protocol
-- Quick sanity check of a USB-to-serial adapter's pinout and baud rate
-
----
-
 ## Requirements
 
 ### Linux
