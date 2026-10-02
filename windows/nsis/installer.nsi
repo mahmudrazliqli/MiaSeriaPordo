@@ -4,10 +4,10 @@
 ;--------------------------------
 ; General Information
 !define PRODUCT_NAME "MiaSeriaPordo"
-!define PRODUCT_VERSION "1.0"
-!define PRODUCT_PUBLISHER "Your Company"
-!define PRODUCT_WEB_SITE "http://www.yourcompany.com"
-!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\MiaSeriaPordo.exe"
+!define PRODUCT_VERSION "5.0"
+!define PRODUCT_PUBLISHER "MiaPordo"
+!define PRODUCT_WEB_SITE "https://mahmudrazliqli.github.io/"
+!define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\${PRODUCT_NAME}.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 
@@ -18,9 +18,9 @@ SetCompressor lzma
 !include "MUI.nsh"
 !define MUI_ABORTWARNING
 
-; Use custom icon MiaSeriaPordo.ico
-!define MUI_ICON "MiaSeriaPordo.ico"
-!define MUI_UNICON "MiaSeriaPordo.ico"
+; Use custom icon ${PRODUCT_NAME}.ico
+!define MUI_ICON "${PRODUCT_NAME}.ico"
+!define MUI_UNICON "${PRODUCT_NAME}.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -31,7 +31,7 @@ SetCompressor lzma
 ; Installation page
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
-!define MUI_FINISHPAGE_RUN "$INSTDIR\MiaSeriaPordo.exe"
+!define MUI_FINISHPAGE_RUN "$INSTDIR\${PRODUCT_NAME}.exe"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstall pages
@@ -45,8 +45,8 @@ SetCompressor lzma
 ; Installer Settings
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "MiaSeriaPordo_Setup.exe"
-InstallDir "$PROGRAMFILES\MiaSeriaPordo"
+OutFile "${PRODUCT_NAME}_Setup.exe"
+InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
 ShowUnInstDetails show
@@ -58,26 +58,25 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR"
   
   ; Install main files
-  File "MiaSeriaPordo.exe"
-  File "windows1.glade"
-  File "MiaSeriaPordo.ico"
+  File "${PRODUCT_NAME}.exe"
+  File "${PRODUCT_NAME}.ico"
   
   ; Install all dll files
   File "*.dll"
   
   ; Create Start Menu shortcuts
-  CreateDirectory "$SMPROGRAMS\MiaSeriaPordo"
-  CreateShortCut "$SMPROGRAMS\MiaSeriaPordo\MiaSeriaPordo.lnk" "$INSTDIR\MiaSeriaPordo.exe" "" "$INSTDIR\MiaSeriaPordo.ico"
-  CreateShortCut "$SMPROGRAMS\MiaSeriaPordo\Uninstall.lnk" "$INSTDIR\uninst.exe"
+  CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\${PRODUCT_NAME}.exe" "" "$INSTDIR\${PRODUCT_NAME}.ico"
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\uninst.exe"
   
   ; Create Desktop shortcut
-  CreateShortCut "$DESKTOP\MiaSeriaPordo.lnk" "$INSTDIR\MiaSeriaPordo.exe" "" "$INSTDIR\MiaSeriaPordo.ico"
+  CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk" "$INSTDIR\${PRODUCT_NAME}.exe" "" "$INSTDIR\${PRODUCT_NAME}.ico"
   
   ; Register in registry
-  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\MiaSeriaPordo.exe"
+  WriteRegStr HKLM "${PRODUCT_DIR_REGKEY}" "" "$INSTDIR\${PRODUCT_NAME}.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayName" "$(^Name)"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "UninstallString" "$INSTDIR\uninst.exe"
-  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\MiaSeriaPordo.exe"
+  WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayIcon" "$INSTDIR\${PRODUCT_NAME}.exe"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "URLInfoAbout" "${PRODUCT_WEB_SITE}"
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "Publisher" "${PRODUCT_PUBLISHER}"
@@ -91,19 +90,18 @@ SectionEnd
 
 Section Uninstall
   ; Delete files
-  Delete "$INSTDIR\MiaSeriaPordo.exe"
-  Delete "$INSTDIR\windows1.glade"
-  Delete "$INSTDIR\MiaSeriaPordo.ico"
+  Delete "$INSTDIR\${PRODUCT_NAME}.exe"
+  Delete "$INSTDIR\${PRODUCT_NAME}.ico"
   Delete "$INSTDIR\*.dll"
   Delete "$INSTDIR\uninst.exe"
   
   ; Delete shortcuts
-  Delete "$SMPROGRAMS\MiaSeriaPordo\MiaSeriaPordo.lnk"
-  Delete "$SMPROGRAMS\MiaSeriaPordo\Uninstall.lnk"
-  Delete "$DESKTOP\MiaSeriaPordo.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk"
+  Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
   
   ; Delete Start Menu folder
-  RMDir "$SMPROGRAMS\MiaSeriaPordo"
+  RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
   
   ; Delete installation folder
   RMDir "$INSTDIR"
